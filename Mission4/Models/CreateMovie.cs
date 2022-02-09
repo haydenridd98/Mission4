@@ -14,7 +14,9 @@ namespace Mission4.Models
         public int ApplicationId { get; set; }
 
         [Required]
-        public string Category { get; set; }
+        // build foreign key relationship
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
 
         [Required]
         public string Title { get; set; }

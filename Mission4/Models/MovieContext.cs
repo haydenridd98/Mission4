@@ -15,15 +15,22 @@ namespace Mission4.Models
         }
 
         public DbSet<CreateMovie> responses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryID = 1, CategoryName = "Romance"},
+                new Category { CategoryID = 2, CategoryName = "Sci-Fi" },
+                new Category { CategoryID = 3, CategoryName = "Action/Adventure" }
+            );
+
             mb.Entity<CreateMovie>().HasData(
                 
                 new CreateMovie
                 {
                     ApplicationId = 1,
-                    Category = "Drama",
+                    CategoryID =  1,
                     Title = "About Time",
                     Year = 2013,
                     Director = "Richard Curtis",
@@ -36,7 +43,7 @@ namespace Mission4.Models
                 new CreateMovie
                 {
                     ApplicationId = 2,
-                    Category = "SciFi",
+                    CategoryID = 2,
                     Title = "Interstellar",
                     Year = 2014,
                     Director = "Christopher Nolan",
@@ -49,7 +56,7 @@ namespace Mission4.Models
                 new CreateMovie
                 {
                     ApplicationId = 3,
-                    Category = "Action/Adventure",
+                    CategoryID = 3,
                     Title = "The Dark Knight",
                     Year = 2008,
                     Director = "Christopher Nolan",

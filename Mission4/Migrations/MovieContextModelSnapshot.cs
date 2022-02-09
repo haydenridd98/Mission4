@@ -15,15 +15,45 @@ namespace Mission4.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
+            modelBuilder.Entity("Mission4.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Romance"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Sci-Fi"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Action/Adventure"
+                        });
+                });
+
             modelBuilder.Entity("Mission4.Models.CreateMovie", b =>
                 {
                     b.Property<int>("ApplicationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +82,15 @@ namespace Mission4.Migrations
 
                     b.HasKey("ApplicationId");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("responses");
 
                     b.HasData(
                         new
                         {
                             ApplicationId = 1,
-                            Category = "Drama",
+                            CategoryID = 1,
                             Director = "Richard Curtis",
                             Edited = false,
                             LentTo = "",
@@ -70,7 +102,7 @@ namespace Mission4.Migrations
                         new
                         {
                             ApplicationId = 2,
-                            Category = "SciFi",
+                            CategoryID = 2,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -82,7 +114,7 @@ namespace Mission4.Migrations
                         new
                         {
                             ApplicationId = 3,
-                            Category = "Action/Adventure",
+                            CategoryID = 3,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -91,6 +123,15 @@ namespace Mission4.Migrations
                             Title = "The Dark Knight",
                             Year = 2008
                         });
+                });
+
+            modelBuilder.Entity("Mission4.Models.CreateMovie", b =>
+                {
+                    b.HasOne("Mission4.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
